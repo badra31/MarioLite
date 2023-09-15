@@ -1,4 +1,4 @@
-package com.badra.jeu;
+package com.badra.ApplicationDuJeu;
 
 import javax.swing.*;
 

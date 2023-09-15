@@ -1,7 +1,7 @@
-package com.badra.personnages;
+package com.badra.personnagesDuJeu;
 
-import com.badra.jeu.Main;
-import com.badra.objet.ObjetJeu;
+import com.badra.ApplicationDuJeu.Main;
+import com.badra.ObjetsDuJeu.ObjetJeu;
 
 import javax.swing.*;
 import java.awt.*;

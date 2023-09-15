@@ -1,4 +1,4 @@
-package com.badra.objet;
+package com.badra.ObjetsDuJeu;
 
 import javax.swing.*;
 import java.awt.*;

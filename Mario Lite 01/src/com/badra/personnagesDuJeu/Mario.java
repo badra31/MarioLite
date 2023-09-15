@@ -1,4 +1,4 @@
-package com.badra.personnages;
+package com.badra.personnagesDuJeu;
 
 import javax.swing.*;
 import java.awt.*;

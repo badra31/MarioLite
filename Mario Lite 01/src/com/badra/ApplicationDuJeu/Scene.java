@@ -1,8 +1,8 @@
-package com.badra.jeu;
+package com.badra.ApplicationDuJeu;
 
-import com.badra.objet.BlocPierre;
-import com.badra.objet.TuyauRouge;
-import com.badra.personnages.Mario;
+import com.badra.ObjetsDuJeu.BlocPierre;
+import com.badra.ObjetsDuJeu.TuyauRouge;
+import com.badra.personnagesDuJeu.Mario;
 
 import javax.swing.*;
 import java.awt.*;

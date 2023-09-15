@@ -1,6 +1,6 @@
-package com.badra.objet;
+package com.badra.ObjetsDuJeu;
 
-import com.badra.jeu.Main;
+import com.badra.ApplicationDuJeu.Main;
 
 public class ObjetJeu {
 
