@@ -69,7 +69,7 @@ public class Personnage {
 
         // Condition de posture et de position du Personnage
         if(this.marche == false || Main.scene.getxPos() <= 0) {
-            if(versDroite) {str = "/images/" + nom + "ArretDroite.png";}
+            if(this.versDroite) {str = "/images/" + nom + "ArretDroite.png";}
             else {str = "/images/" + nom + "ArretGauche.png";}
         }else{
                 this.compteur++;
@@ -90,6 +90,7 @@ public class Personnage {
     }
 
 
+/*
     public boolean contactAvant(ObjetJeu objet) {
         if (this.isVersDroite() == true){
             if (this.x + this.largeur < objet.getX() // mario trop a gauche
@@ -100,5 +101,56 @@ public class Personnage {
                 return false;
             }else{return true;}
         } else {return  false;}
+    }
+*/
+    // Détection contact à droite de mario
+    protected boolean contactAvant(ObjetJeu objet) {
+
+        if (this.x + this.largeur < objet.getX()
+                || this.x + this.largeur > objet.getX() + 5
+                || this.y + this.hauteur <= objet.getY()
+                || this.y >= objet.getY() + objet.getHauteur()) {
+            return false;
+        }else{return true;}
+    }
+
+    // Détection contact à gauche de mario
+    protected boolean contactArriere(ObjetJeu objet) {
+        if (this.x > objet.getX() + objet.getLargeur()
+                || this.x + this.largeur < objet.getX() + objet.getLargeur() - 5
+                || this.y + this.hauteur <= objet.getY()
+                || this.y >= objet.getY() + objet.getHauteur()) {
+            return false;
+        }else{return true;}
+    }
+
+    // Détection contact en dessous de mario
+    protected boolean contactDessous(ObjetJeu objet) {
+        if (this.x + this.largeur < objet.getX() + 5
+                || this.x > objet.getX() + objet.getLargeur() - 5
+                || this.y + this.hauteur < objet.getY()
+                || this.y + this.hauteur > objet.getY() + 5) {
+            return false;
+        }else{return true;}
+    }
+
+    // Détection contact au dessus de mario
+    protected boolean contactDessus(ObjetJeu objet) {
+        if (this.x + this.largeur < objet.getX() + 5
+                || this.x > objet.getX() + objet.getLargeur() - 5
+                || this.y < objet.getY() + objet.getHauteur()
+                || this.y > objet.getY() + objet.getHauteur() + 5) {
+            return false;
+        }else{return true;}
+    }
+
+    // Détection de l'objet proche de mario afin d'évité les conflis de contact
+    // d'un objet a l'autre
+
+    public boolean procheObjet(ObjetJeu objet) {
+        if ((this.x > objet.getX() - 10 && this.x < objet.getX() + objet.getLargeur() + 10)
+                || (this.x + this.largeur > objet.getX() - 10 && this.x + this.largeur < objet.getX() + objet.getLargeur() +10)){
+                return true;
+        }else{return false;}
     }
 }

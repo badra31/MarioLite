@@ -14,7 +14,7 @@ public class BlocPierre extends ObjetJeu{
     ////////  CONSTRUCTEUR  //////////
 
     public BlocPierre( int x, int y) {
-        super(x, y, 50, 50);
+        super(x, y, 30, 30);
         this.icoBlocPierre = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/bloc.png")));
         this.imgBlocPierre = icoBlocPierre.getImage();
     }

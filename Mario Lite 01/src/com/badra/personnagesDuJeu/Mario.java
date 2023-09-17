@@ -1,6 +1,7 @@
 package com.badra.personnagesDuJeu;
 
 import com.badra.ApplicationDuJeu.Main;
+import com.badra.ObjetsDuJeu.ObjetJeu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,19 +28,13 @@ public class Mario extends Personnage {
     }
 
     ////////  GETTERS  //////////
-    public Image getImgMario() {
-        return imgMario;
-    }
+    public Image getImgMario() {return imgMario;}
 
-    public boolean isSaut() {
-        return saut;
-    }
+    public boolean isSaut() {return saut;}
 
     ///////  SETTERS  /////////
 
-    public void setSaut(boolean saut) {
-        this.saut = saut;
-    }
+    public void setSaut(boolean saut) {this.saut = saut;}
 
     //////  METHODES  ///////
 
@@ -52,8 +47,7 @@ public class Mario extends Personnage {
         this.compteurSaut++;
         // Montée du saut
         if (this.compteurSaut <= 35) {
-            if (this.getY() > Main.scene.getHauteurPlafond()) {
-                this.setY(this.getY() - 4);
+            if (this.getY() > Main.scene.getHauteurPlafond()) {this.setY(this.getY() - 4);
             } else {
                 this.compteurSaut = 36;
             }
@@ -83,10 +77,34 @@ public class Mario extends Personnage {
         this.compteurSaut = 0;
     }
 
-        // Affivhahge de l'image ico
+        // Affichage de l'image ico
         ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
         img = ico.getImage();
         return img;
+    }
+
+    public void contact(ObjetJeu objet) {
+        // Contact horizontal
+        if (super.contactAvant(objet) == true && this.isVersDroite() == true || super.contactArriere(objet) == true && this.isVersDroite() == false){
+            Main.scene.setDx(0);
+            this.setMarche(false);
+        }
+
+        // Contact avec un objet en desous
+        if (super.contactDessous(objet) == true && this.saut == true) {
+            Main.scene.setySol(objet.getY());
+        }else if (super.contactDessous(objet) == false) {
+            Main.scene.setySol(293);
+            if (this.saut == false) {this.setY(243);}
+        }
+
+        // Contact avec un objet en dessus
+        if (super.contactDessus(objet) == true) {
+            Main.scene.setHauteurPlafond(objet.getY() + objet.getHauteur());
+        }else if (super.contactDessus(objet) == false && this.saut == false) {
+            Main.scene.setHauteurPlafond(0);
+        }
+
     }
 
 }

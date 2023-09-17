@@ -83,8 +83,6 @@ public class Scene extends JPanel {
 
     public int getDx() {return dx;}
 
-    public void setDx(int dx) {this.dx = dx;}
-
     public int getxPos() {return xPos;}
 
     public int getySol() {return ySol;}
@@ -95,12 +93,17 @@ public class Scene extends JPanel {
 
     public void setxPos(int xPos) {this.xPos = xPos;}
 
+    public void setDx(int dx) {this.dx = dx;}
+
+    public void setySol(int ySol) {this.ySol = ySol;}
+
     public void setxFond1(int xFond1) {this.xFond1 = xFond1;}
 
     public void setxFond2(int xFond2) {this.xFond2 = xFond2;}
 
+    public void setHauteurPlafond(int hauteurPlafond) {this.hauteurPlafond = hauteurPlafond;}
 
-//////  METHODES  ////////
+    //////  METHODES  ////////
 
     public void deplacementFond() { // Déplacement des images de font simulant le dplacement de mario
 
@@ -128,22 +131,21 @@ public class Scene extends JPanel {
         // g2.drawImage(this.imgFond1, this.xFond1, 0, null); // Dessin de l'image de fond.
         // g2.drawImage(this.imgMario, 300, 245, null); // Provisore.
 
-        // Detection contact gauche
-        if (this.mario.contactAvant(tuyauRouge1) == true) {
-            this.mario.setMarche(false);
-            this.dx = 0;
-        }
+        // Detection contact mario avec un objet si condition "mario.proche" valide
+        if (this.mario.procheObjet(this.blocPierre1)){this.mario.contact(blocPierre1);}
+        if (this.mario.procheObjet(this.tuyauRouge1)){this.mario.contact(tuyauRouge1);}
 
+        //  Gestion du déplacement de touts les objets fixe du jeu
         this.deplacementFond();
         this.tuyauRouge1.deplacement();
         this.blocPierre1.deplacement();
 
-        System.out.println(this.tuyauRouge1.getX());
 
         // Dessin de l'image de fond.
         g.drawImage(this.imgFond1, this.xFond1, 0, null);
         g.drawImage(this.imgFond2, this.xFond2, 0, null);
 
+        // dessin de l'image du chatêau et du panneaux de départ
         g.drawImage(this.imgDepart, 220 - this.xPos, 234, null);
         g.drawImage(this.imgChateaux1, 10 - this.xPos, 95, null);
 
