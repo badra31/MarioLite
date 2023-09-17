@@ -27,6 +27,10 @@ public class Clavier implements KeyListener {
             Main.scene.mario.setMarche(true);
             Main.scene.mario.setVersDroite(false);
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+            Main.scene.mario.setSaut(true);
+        }
     }
 
     @Override

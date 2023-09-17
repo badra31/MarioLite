@@ -30,6 +30,9 @@ public class Scene extends JPanel {
     private int dx; // Variable de deplacement du fond
     private int xPos; // Position absolue dans le jeu
 
+    private int ySol; // Hauteur absolue du sol
+    private int hauteurPlafond; // Hauteur absolue du plafont
+
     // Initialisation Personnage
     public Mario mario;
     // Initalisation ObjetJeu
@@ -48,6 +51,9 @@ public class Scene extends JPanel {
         this.xFond2 = 750; // position relative à la valeur initial
         this.dx = 0;
         this.xPos = -1;
+
+        this.ySol = 293;
+        this.hauteurPlafond = 0;
 
         icoFond = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/fondEcran.png")));
         this.imgFond1 = this.icoFond.getImage();
@@ -73,7 +79,7 @@ public class Scene extends JPanel {
         chronoEcran.start();
     }
 
-    /////// GETTERS AND SETTERS ///////
+    /////// GETTERS //////////
 
     public int getDx() {return dx;}
 
@@ -81,11 +87,18 @@ public class Scene extends JPanel {
 
     public int getxPos() {return xPos;}
 
+    public int getySol() {return ySol;}
+
+    public int getHauteurPlafond() {return hauteurPlafond;}
+
+    ///////  SETTERS ///////
+
     public void setxPos(int xPos) {this.xPos = xPos;}
 
     public void setxFond1(int xFond1) {this.xFond1 = xFond1;}
 
     public void setxFond2(int xFond2) {this.xFond2 = xFond2;}
+
 
 //////  METHODES  ////////
 
@@ -131,15 +144,19 @@ public class Scene extends JPanel {
         g.drawImage(this.imgFond1, this.xFond1, 0, null);
         g.drawImage(this.imgFond2, this.xFond2, 0, null);
 
-        // Dessin de l'image du personnage.
-        g.drawImage(this.mario.marche("mario", 25), 300, 245, null); //
-
         g.drawImage(this.imgDepart, 220 - this.xPos, 234, null);
         g.drawImage(this.imgChateaux1, 10 - this.xPos, 95, null);
 
         // Dessin de l'image des objetJeu.
         g.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX(), this.tuyauRouge1.getY(), null);
         g.drawImage(this.blocPierre1.getImgBlocPierre(), this.blocPierre1.getX(), this.blocPierre1.getY(), null);
+
+        // Dessin de l'image du personnage.
+        if(this.mario.isSaut()) {
+            g.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(),null);
+        }else{
+            g.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
+        }
 
     }
 }
