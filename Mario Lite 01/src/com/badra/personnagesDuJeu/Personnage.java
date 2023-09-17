@@ -68,7 +68,7 @@ public class Personnage {
         Image img;
 
         // Condition de posture et de position du Personnage
-        if(this.marche == false || Main.scene.getxPos() <= 0) {
+        if(this.marche == false || Main.scene.getxPos() <= 0 || Main.scene.getxPos() > 4430) {
             if(this.versDroite) {str = "/images/" + nom + "ArretDroite.png";}
             else {str = "/images/" + nom + "ArretGauche.png";}
         }else{

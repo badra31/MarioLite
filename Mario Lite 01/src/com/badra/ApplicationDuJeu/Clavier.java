@@ -12,6 +12,7 @@ public class Clavier implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) { // flèche droite clavier
+
             // Annule le decalage de 1 créé par le déplacement du fond
             if (Main.scene.getxPos() == -1) {
                 Main.scene.setxPos(0); // Réinitialisation de setxPos
@@ -23,6 +24,13 @@ public class Clavier implements KeyListener {
             Main.scene.setDx(1);  // Déplacement du fond vers la gauche lors de l,appuie de la touche "flèche droite"
 
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT) { // flèche gauche clavier
+
+            if (Main.scene.getxPos() == 4431) {
+                Main.scene.setxPos(4430);
+                Main.scene.setxFond1(-50);
+                Main.scene.setxFond2(750);
+            }
+
             Main.scene.setDx(-1); // Déplacement du fond vers la droite lors de l,appuie de la touche "flèche gauche"
             Main.scene.mario.setMarche(true);
             Main.scene.mario.setVersDroite(false);

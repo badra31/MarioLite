@@ -2,12 +2,19 @@ package com.badra.ObjetsDuJeu;
 
 import com.badra.ApplicationDuJeu.Main;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.Objects;
+
 public class ObjetJeu {
 
     ////////  VARIABLES  ///////////
 
      private int largeur, hauteur; // Dimension de l'objet'
      private int x,y; // Position de l'objet
+
+     protected ImageIcon icoObjet;
+     protected Image imgObjet;
 
     ////////  CONSTRUCTEUR  ///////////
 
@@ -16,6 +23,7 @@ public class ObjetJeu {
         this.hauteur = hauteur;
         this.x = x;
         this.y = y;
+
     }
 
     ////////  GETTERS  ///////////
@@ -28,8 +36,11 @@ public class ObjetJeu {
 
     public int getY() {return y;}
 
+    public ImageIcon getIcoObjet() {return icoObjet;}
 
-    ////////  SETTERS  ///////////
+    public Image getImgObjet() {return imgObjet;}
+
+////////  SETTERS  ///////////
 
     public void setLargeur(int largeur) {this.largeur = largeur;}
 
