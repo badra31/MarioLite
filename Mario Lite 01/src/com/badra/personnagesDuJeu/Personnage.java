@@ -17,6 +17,8 @@ public class Personnage {
     private boolean versDroite;  // true quand le personnage est tourné vers la droite
     private int compteur;  // compteur des pas du personnage
 
+    protected  boolean vivant; // true si personnage est vivant
+
 
 
     public  Personnage(int x, int y, int largeur, int hauteur) {
@@ -27,6 +29,7 @@ public class Personnage {
         this.compteur = 0;
         this.marche = false;
         this.versDroite = true;
+        this.vivant = true;
     }
 
     /////// GETTERS ////////
@@ -45,6 +48,7 @@ public class Personnage {
 
     public int getCompteur() {return compteur;}
 
+    public boolean isVivant() {return vivant;}
 
     ////// SETTERS ///////
 
@@ -58,6 +62,7 @@ public class Personnage {
 
     public void setCompteur(int compteur) {this.compteur = compteur;}
 
+    public void setVivant(boolean vivant) {this.vivant = vivant;}
 
     //////  METHODES  ////////
 
@@ -150,23 +155,32 @@ public class Personnage {
         }else{return true;}
     }
 
-    // Détection contact à droite de mario
+    // Détection contact à droite du personnage ennemi
     protected boolean contactAvant(Personnage personnage) {
 
-        if (this.x + this.largeur < personnage.getX()
-                || this.x + this.largeur > personnage.getX() + 5
+        if (this.isVersDroite() == true){
+            if (this.x + this.largeur < personnage.getX()
+                    || this.x + this.largeur > personnage.getX() + 5
+                    || this.y + this.hauteur <= personnage.getY()
+                    || this.y >= personnage.getY() + personnage.getHauteur()) {
+                return false;
+            }else{return true;}
+        }else {return false;}
+    }
+
+    // Détection contact à gauche du Personnage ennemi
+    protected boolean contactArriere(Personnage personnage) {
+        if (this.x > personnage.getX() + personnage.getLargeur()
+                || this.x + this.largeur < personnage.getX() + personnage.getLargeur() - 5
                 || this.y + this.hauteur <= personnage.getY()
                 || this.y >= personnage.getY() + personnage.getHauteur()) {
             return false;
         }else{return true;}
     }
 
-    // Détection contact à gauche de mario
-    protected boolean contactArriere(Personnage personnage) {
-        if (this.x > personnage.getX() + personnage.getLargeur()
-                || this.x + this.largeur < personnage.getX() + personnage.getLargeur() - 5
-                || this.y + this.hauteur <= personnage.getY()
-                || this.y >= personnage.getY() + personnage.getHauteur()) {
+    protected boolean contactDessous(Personnage personnage) {
+        if (this.x + this.largeur < personnage.getX() || this.x > personnage.getX() + personnage.getLargeur()
+                || this.y + this.hauteur < personnage.getY() || this.y + this.hauteur > personnage.getY() + 5) {
             return false;
         }else{return true;}
     }

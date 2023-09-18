@@ -271,6 +271,7 @@ public class Scene extends JPanel {
 
         if (this.champ.procheObjet(tortue)) {this.champ.contactObjet(tortue);}
         if (this.tortue.procheObjet(champ)) {this.tortue.contactObjet(champ);}
+        if (this.mario.procheObjet(champ)) {this.mario.contactEnnemi(champ);}
 
         //  Gestion du placement de touts les objets fixe du jeu
         this.deplacementFond();

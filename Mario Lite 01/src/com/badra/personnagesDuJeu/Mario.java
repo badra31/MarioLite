@@ -136,6 +136,17 @@ public class Mario extends Personnage {
 
     }
 
+    public void contactEnnemi(Personnage personnage){
+
+        if (super.contactAvant(personnage) == true ||super.contactArriere(personnage) == true) {
+            this.setMarche(false);
+            this.setVivant(false);
+        } else if (super.contactDessous(personnage) == true) {
+            personnage.setMarche(false);
+            personnage.setVivant(false);
+        }
+    }
+
     public boolean contactPiece(Piece piece) {
         // Contact pieces n'a pas de répercution sur mario
         if (this.contactArriere(piece) == true

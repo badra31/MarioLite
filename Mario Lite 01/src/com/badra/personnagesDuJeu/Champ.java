@@ -46,9 +46,11 @@ public class Champ extends Personnage implements Runnable{
         catch (InterruptedException e){}
 
         while (true) {
-            this.bouge();
-            try {Thread.sleep(PAUSE);
-            }catch (InterruptedException e) {}
+            if (this.vivant == true) {
+                this.bouge();
+                try {Thread.sleep(PAUSE);}
+                catch (InterruptedException e) {}
+            }
         }
     }
 
