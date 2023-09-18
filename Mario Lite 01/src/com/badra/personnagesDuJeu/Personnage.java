@@ -17,7 +17,7 @@ public class Personnage {
     private boolean versDroite;  // true quand le personnage est tourné vers la droite
     private int compteur;  // compteur des pas du personnage
 
-    ///////  CONSTRUCTEUR  /////
+
 
     public  Personnage(int x, int y, int largeur, int hauteur) {
         this.x = x;

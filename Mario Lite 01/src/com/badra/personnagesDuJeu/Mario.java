@@ -2,6 +2,7 @@ package com.badra.personnagesDuJeu;
 
 import com.badra.ApplicationDuJeu.Main;
 import com.badra.ObjetsDuJeu.ObjetJeu;
+import com.badra.ObjetsDuJeu.Piece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,7 +84,7 @@ public class Mario extends Personnage {
         return img;
     }
 
-    public void contact(ObjetJeu objet) {
+    public void contactObjet(ObjetJeu objet) {
         // Contact horizontal
         if (super.contactAvant(objet) == true && this.isVersDroite() == true || super.contactArriere(objet) == true && this.isVersDroite() == false){
             Main.scene.setDx(0);
@@ -104,6 +105,17 @@ public class Mario extends Personnage {
         }else if (super.contactDessus(objet) == false && this.saut == false) {
             Main.scene.setHauteurPlafond(0);
         }
+
+    }
+
+    public boolean contactPiece(Piece piece) {
+        // Contact pieces n'a pas de répercution sur mario
+        if (this.contactArriere(piece) == true
+                || this.contactAvant(piece) == true
+                || this.contactDessous(piece) == true
+                || this.contactDessus(piece) == true) {
+            return true;
+        }else{return false;}
 
     }
 

@@ -2,6 +2,7 @@ package com.badra.ApplicationDuJeu;
 
 import com.badra.ObjetsDuJeu.BlocPierre;
 import com.badra.ObjetsDuJeu.ObjetJeu;
+import com.badra.ObjetsDuJeu.Piece;
 import com.badra.ObjetsDuJeu.TuyauRouge;
 import com.badra.personnagesDuJeu.Mario;
 
@@ -67,8 +68,22 @@ public class Scene extends JPanel {
     public BlocPierre blocPierre11;
     public BlocPierre blocPierre12;
 
+    public Piece piece1;
+    public Piece piece2;
+    public Piece piece3;
+    public Piece piece4;
+    public Piece piece5;
+    public Piece piece6;
+    public Piece piece7;
+    public Piece piece8;
+    public Piece piece9;
+    public Piece piece10;
+
+
     // Déclaration ArrayList d'ObjetJeu
-    private ArrayList<ObjetJeu> tabObjets;
+    private ArrayList<ObjetJeu> tabObjets; // tableau qui enregistre tous les objets du jeu
+    // tabPieces car reaction différente
+    private ArrayList<Piece> tabPieces; // tableau qui enregistre toutes les pieces du jeu
 
     ///////  CONSTRUCTEUR  /////
 
@@ -126,8 +141,20 @@ public class Scene extends JPanel {
         tuyauRouge7 = new TuyauRouge(3800, 230);
         tuyauRouge8 = new TuyauRouge(4500, 230);
 
+        piece1 = new Piece(402, 145);
+        piece2 = new Piece(1202, 140);
+        piece3 = new Piece(1272, 95);
+        piece4 = new Piece(1342, 40);
+        piece5 = new Piece(1650, 145);
+        piece6 = new Piece(2650, 145);
+        piece7 = new Piece(3000, 135);
+        piece8 = new Piece(3400, 125);
+        piece9 = new Piece(4200, 145);
+        piece10 = new Piece(4600, 40);
+
         // Instancié l'objet "tabObjets"
         tabObjets = new ArrayList<ObjetJeu>();
+        tabPieces = new ArrayList<Piece>();
 
         // Initialisé contenu tabObjets
         this.tabObjets.add(this.tuyauRouge1);
@@ -152,6 +179,16 @@ public class Scene extends JPanel {
         this.tabObjets.add(this.blocPierre11);
         this.tabObjets.add(this.blocPierre12);
 
+        this.tabPieces.add(this.piece1);
+        this.tabPieces.add(this.piece2);
+        this.tabPieces.add(this.piece3);
+        this.tabPieces.add(this.piece4);
+        this.tabPieces.add(this.piece5);
+        this.tabPieces.add(this.piece6);
+        this.tabPieces.add(this.piece7);
+        this.tabPieces.add(this.piece8);
+        this.tabPieces.add(this.piece9);
+        this.tabPieces.add(this.piece10);
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -216,7 +253,16 @@ public class Scene extends JPanel {
         // Detection contact mario avec un objet si condition "mario.proche" valide
         for (int i = 0; i < this.tabObjets.size(); i++){
             // mario
-            if (this.mario.procheObjet(this.tabObjets.get(i))){this.mario.contact(this.tabObjets.get(i));}
+            if (this.mario.procheObjet(this.tabObjets.get(i))){this.mario.contactObjet(this.tabObjets.get(i));}
+        }
+
+        // Detection contact mario avec les pieces
+        for (int i = 0; i < this.tabPieces.size(); i++) {
+            if (this.mario.procheObjet(this.tabPieces.get(i))) {
+                if (this.mario.contactPiece(this.tabPieces.get(i))){
+                    this.tabPieces.remove(i);
+                }
+            }
         }
 
         //  Gestion du déplacement de touts les objets fixe du jeu
@@ -224,6 +270,7 @@ public class Scene extends JPanel {
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
             for (int i = 0; i < this.tabObjets.size(); i++) {this.tabObjets.get(i).deplacement();}
+            for (int i = 0; i < this.tabPieces.size(); i++) {this.tabPieces.get(i).deplacement();}
         }
 
         // Dessin de l'image de fond.
@@ -233,6 +280,11 @@ public class Scene extends JPanel {
         // Dessin de l'image des objetJeu.
         for (int i = 0; i < this.tabObjets.size(); i++){
             g.drawImage(this.tabObjets.get(i).getImgObjet(), this.tabObjets.get(i).getX(),this.tabObjets.get(i).getY(), null);
+        }
+
+        // Dessin de l'image des Pieces du Jeu.
+        for (int i = 0; i < this.tabPieces.size(); i++){
+            g.drawImage(this.tabPieces.get(i).animePiece(), this.tabPieces.get(i).getX(),this.tabPieces.get(i).getY(), null);
         }
 
         // Dessin des image de départ et fin de jeu de mario
