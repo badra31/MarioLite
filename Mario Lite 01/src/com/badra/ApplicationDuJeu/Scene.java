@@ -4,6 +4,7 @@ import com.badra.ObjetsDuJeu.BlocPierre;
 import com.badra.ObjetsDuJeu.ObjetJeu;
 import com.badra.ObjetsDuJeu.Piece;
 import com.badra.ObjetsDuJeu.TuyauRouge;
+import com.badra.personnagesDuJeu.Champ;
 import com.badra.personnagesDuJeu.Mario;
 
 import javax.swing.*;
@@ -44,6 +45,8 @@ public class Scene extends JPanel {
 
     // Declaration Personnage
     public Mario mario;
+
+    public Champ champ;
 
     // Déclaration ObjetJeu
     public TuyauRouge tuyauRouge1;
@@ -117,6 +120,7 @@ public class Scene extends JPanel {
 
         // Instancié initialisé les Personnages
         mario = new Mario(300, 245);
+        champ = new Champ(800, 263);
 
         // Instancié les ObjetJeu
         blocPierre1 = new BlocPierre(400, 180);
@@ -231,6 +235,7 @@ public class Scene extends JPanel {
             this.xPos = this.xPos  + this.dx;
             this.xFond1 = this.xFond1 - this.dx;
             this.xFond2 = this.xFond2 - this.dx;
+            this.champ.deplacement();
         }
 
         // Permanace du fond d'écran en simulant une boucle avec xFond1 et xFond2
@@ -244,16 +249,11 @@ public class Scene extends JPanel {
 
         super.paintComponent(g);
 
-        // Graphics g2 = (Graphics2D)g;
-        //
-        // this.deplacementFond();
-        // g2.drawImage(this.imgFond1, this.xFond1, 0, null); // Dessin de l'image de fond.
-        // g2.drawImage(this.imgMario, 300, 245, null); // Provisore.
-
         // Detection contact mario avec un objet si condition "mario.proche" valide
         for (int i = 0; i < this.tabObjets.size(); i++){
             // mario
             if (this.mario.procheObjet(this.tabObjets.get(i))){this.mario.contactObjet(this.tabObjets.get(i));}
+            if (this.champ.procheObjet(this.tabObjets.get(i))){this.champ.contactObjet(this.tabObjets.get(i));}
         }
 
         // Detection contact mario avec les pieces
@@ -293,12 +293,14 @@ public class Scene extends JPanel {
         g.drawImage(this.imgDrapeau, 4650 - this.xPos, 115, null); // dessin de l'image du drapeau de fin
         g.drawImage(this.imgChateauFin, 5000 - this.xPos, 145, null); // dessin de l'image du chateau de fin
 
-        // Dessin de l'image du personnage.
+        // Dessin des images des personnages.
         if(this.mario.isSaut()) {
             g.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(),null);
         }else{
             g.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
         }
+
+        g.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
 
     }
 }

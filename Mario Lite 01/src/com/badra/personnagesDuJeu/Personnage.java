@@ -61,6 +61,12 @@ public class Personnage {
 
     //////  METHODES  ////////
 
+    public void deplacement() {
+        if (Main.scene.getxPos() >= 0) {
+            this.x = this.x - Main.scene.getDx();
+        }
+    }
+
     public Image marche(String nom, int frequence) {
 
         String str;
@@ -68,7 +74,7 @@ public class Personnage {
         Image img;
 
         // Condition de posture et de position du Personnage
-        if(this.marche == false || Main.scene.getxPos() <= 0 || Main.scene.getxPos() > 4430) {
+        if(this.marche == false ) {
             if(this.versDroite) {str = "/images/" + nom + "ArretDroite.png";}
             else {str = "/images/" + nom + "ArretGauche.png";}
         }else{
