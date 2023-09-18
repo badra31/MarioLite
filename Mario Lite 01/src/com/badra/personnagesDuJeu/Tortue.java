@@ -1,31 +1,30 @@
 package com.badra.personnagesDuJeu;
 
-import com.badra.ApplicationDuJeu.Main;
 import com.badra.ObjetsDuJeu.ObjetJeu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class Champ extends Personnage implements Runnable{
+public class Tortue extends Personnage implements Runnable{
 
-    private ImageIcon icoCamp;
-    private Image imgChamp;
+    private ImageIcon icoTortue;
+    private Image imgTortue;
 
     private final int PAUSE = 15; // Temps d'attente en ms entre 2 tours de boucle
-    private int dxChamp; // Déplacement du champignon
+    private int dxTortue; // Déplacement de la tortue
 
     ////////  CONSTRUCTEUR   ///////////
 
-    public Champ(int x, int y) {
+    public Tortue(int x, int y) {
 
         super(x, y, 27, 30);
         super.setVersDroite(true);
         super.setMarche(true);
 
-        this.dxChamp = 1;
-        this.icoCamp = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/champArretDroite.png")));
-        this.imgChamp = icoCamp.getImage();
+        this.dxTortue = 1;
+        this.icoTortue = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/tortueArretDroite.png")));
+        this.imgTortue = icoTortue.getImage();
 
         Thread chronoChamp = new Thread(this);
         chronoChamp.start();
@@ -33,7 +32,7 @@ public class Champ extends Personnage implements Runnable{
 
     ////////  GETTERS   /////////
 
-    public Image getImgChamp() {return imgChamp;}
+    public Image getImgTortue() {return imgTortue;}
 
     ////////  SETTERS   /////////
 
@@ -53,19 +52,19 @@ public class Champ extends Personnage implements Runnable{
     }
 
     public void bouge() {
-        if (super.isVersDroite() == true){this.dxChamp = 1;}
-        else{this.dxChamp = -1;}
-        super.setX(super.getX() + this.dxChamp);
+        if (super.isVersDroite() == true){this.dxTortue = 1;}
+        else{this.dxTortue = -1;}
+        super.setX(super.getX() + this.dxTortue);
     }
 
     public void contactObjet(ObjetJeu objet) {
         // Contact horizontal
         if (super.contactAvant(objet) == true && this.isVersDroite() == true){
             super.setVersDroite(false);
-            this.dxChamp = -1;
+            this.dxTortue = -1;
         } else if (super.contactArriere(objet) == true && this.isVersDroite() == false) {
             super.setVersDroite(true);
-            this.dxChamp = 1;
+            this.dxTortue = 1;
         }
 
     }
@@ -74,10 +73,10 @@ public class Champ extends Personnage implements Runnable{
         // Contact horizontal
         if (super.contactAvant(personnage) == true && this.isVersDroite() == true){
             super.setVersDroite(false);
-            this.dxChamp = -1;
+            this.dxTortue = -1;
         } else if (super.contactArriere(personnage) == true && this.isVersDroite() == false) {
             super.setVersDroite(true);
-            this.dxChamp = 1;
+            this.dxTortue = 1;
         }
 
     }

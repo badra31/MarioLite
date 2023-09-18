@@ -6,6 +6,7 @@ import com.badra.ObjetsDuJeu.Piece;
 import com.badra.ObjetsDuJeu.TuyauRouge;
 import com.badra.personnagesDuJeu.Champ;
 import com.badra.personnagesDuJeu.Mario;
+import com.badra.personnagesDuJeu.Tortue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,8 +46,8 @@ public class Scene extends JPanel {
 
     // Declaration Personnage
     public Mario mario;
-
     public Champ champ;
+    public Tortue tortue;
 
     // Déclaration ObjetJeu
     public TuyauRouge tuyauRouge1;
@@ -121,6 +122,7 @@ public class Scene extends JPanel {
         // Instancié initialisé les Personnages
         mario = new Mario(300, 245);
         champ = new Champ(800, 263);
+        tortue = new Tortue(950, 243);
 
         // Instancié les ObjetJeu
         blocPierre1 = new BlocPierre(400, 180);
@@ -236,6 +238,7 @@ public class Scene extends JPanel {
             this.xFond1 = this.xFond1 - this.dx;
             this.xFond2 = this.xFond2 - this.dx;
             this.champ.deplacement();
+            this.tortue.deplacement();
         }
 
         // Permanace du fond d'écran en simulant une boucle avec xFond1 et xFond2
@@ -249,11 +252,12 @@ public class Scene extends JPanel {
 
         super.paintComponent(g);
 
-        // Detection contact mario avec un objet si condition "mario.proche" valide
+        // Detection contact mario avec un objet fixe si condition "mario.proche" valide
         for (int i = 0; i < this.tabObjets.size(); i++){
             // mario
             if (this.mario.procheObjet(this.tabObjets.get(i))){this.mario.contactObjet(this.tabObjets.get(i));}
             if (this.champ.procheObjet(this.tabObjets.get(i))){this.champ.contactObjet(this.tabObjets.get(i));}
+            if (this.tortue.procheObjet(this.tabObjets.get(i))){this.tortue.contactObjet(this.tabObjets.get(i));}
         }
 
         // Detection contact mario avec les pieces
@@ -265,8 +269,10 @@ public class Scene extends JPanel {
             }
         }
 
-        //  Gestion du déplacement de touts les objets fixe du jeu
+        if (this.champ.procheObjet(tortue)) {this.champ.contactObjet(tortue);}
+        if (this.tortue.procheObjet(champ)) {this.tortue.contactObjet(champ);}
 
+        //  Gestion du placement de touts les objets fixe du jeu
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
             for (int i = 0; i < this.tabObjets.size(); i++) {this.tabObjets.get(i).deplacement();}
@@ -301,6 +307,7 @@ public class Scene extends JPanel {
         }
 
         g.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
+        g.drawImage(this.tortue.marche("tortue", 45), this.tortue.getX(), this.tortue.getY(), null);
 
     }
 }

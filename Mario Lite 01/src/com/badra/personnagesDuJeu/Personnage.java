@@ -150,6 +150,28 @@ public class Personnage {
         }else{return true;}
     }
 
+    // Détection contact à droite de mario
+    protected boolean contactAvant(Personnage personnage) {
+
+        if (this.x + this.largeur < personnage.getX()
+                || this.x + this.largeur > personnage.getX() + 5
+                || this.y + this.hauteur <= personnage.getY()
+                || this.y >= personnage.getY() + personnage.getHauteur()) {
+            return false;
+        }else{return true;}
+    }
+
+    // Détection contact à gauche de mario
+    protected boolean contactArriere(Personnage personnage) {
+        if (this.x > personnage.getX() + personnage.getLargeur()
+                || this.x + this.largeur < personnage.getX() + personnage.getLargeur() - 5
+                || this.y + this.hauteur <= personnage.getY()
+                || this.y >= personnage.getY() + personnage.getHauteur()) {
+            return false;
+        }else{return true;}
+    }
+
+
     // Détection de l'objet proche de mario afin d'évité les conflis de contact
     // d'un objet a l'autre
 
@@ -157,6 +179,13 @@ public class Personnage {
         if ((this.x > objet.getX() - 10 && this.x < objet.getX() + objet.getLargeur() + 10)
                 || (this.x + this.largeur > objet.getX() - 10 && this.x + this.largeur < objet.getX() + objet.getLargeur() +10)){
                 return true;
+        }else{return false;}
+    }
+
+    public boolean procheObjet(Personnage personnage) {
+        if ((this.x > personnage.getX() - 10 && this.x < personnage.getX() + personnage.getLargeur() + 10)
+                || (this.x + this.largeur > personnage.getX() - 10 && this.x + this.largeur < personnage.getX() + personnage.getLargeur() +10)){
+            return true;
         }else{return false;}
     }
 }
