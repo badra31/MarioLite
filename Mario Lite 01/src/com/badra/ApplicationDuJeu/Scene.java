@@ -4,6 +4,9 @@ import com.badra.ObjetsDuJeu.BlocPierre;
 import com.badra.ObjetsDuJeu.ObjetJeu;
 import com.badra.ObjetsDuJeu.Piece;
 import com.badra.ObjetsDuJeu.TuyauRouge;
+import com.badra.affichage.CompteARebours;
+import com.badra.affichage.Score;
+import com.badra.audio.Audio;
 import com.badra.personnagesDuJeu.Champ;
 import com.badra.personnagesDuJeu.Mario;
 import com.badra.personnagesDuJeu.Tortue;
@@ -43,6 +46,17 @@ public class Scene extends JPanel {
 
     private int ySol; // Hauteur absolue du sol
     private int hauteurPlafond; // Hauteur absolue du plafont
+    private boolean ok;
+
+    private Score score;
+    private Font police;
+    private CompteARebours compteARebours;
+
+    // Déclaration ArrayList d'ObjetJeu
+    private ArrayList<ObjetJeu> tabObjets; // tableau qui enregistre tous les objets du jeu
+    private ArrayList<Piece> tabPieces; // tableau qui enregistre toutes les pieces du jeu
+    private ArrayList<Champ> tabChamps; // Tableau de tous les champignions du jeu
+    private ArrayList<Tortue> tabTortues; // Tableau de touts les tortues du jeu
 
     // Declaration Personnage
     public Mario mario;
@@ -102,12 +116,6 @@ public class Scene extends JPanel {
     public Piece piece10;
 
 
-    // Déclaration ArrayList d'ObjetJeu
-    private ArrayList<ObjetJeu> tabObjets; // tableau qui enregistre tous les objets du jeu
-    private ArrayList<Piece> tabPieces; // tableau qui enregistre toutes les pieces du jeu
-    private ArrayList<Champ> tabChamps; // Tableau de tous les champignions du jeu
-    private ArrayList<Tortue> tabTortues; // Tableau de touts les tortues du jeu
-
     ///////  CONSTRUCTEUR  /////
 
     public Scene() {
@@ -121,6 +129,11 @@ public class Scene extends JPanel {
 
         this.ySol = 293;
         this.hauteurPlafond = 0;
+
+        score = new Score();
+        police = new Font("Arial", Font.PLAIN, 18);
+        compteARebours = new CompteARebours();
+        this.ok = true;
 
         icoFond = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/fondEcran.png")));
         this.imgFond1 = this.icoFond.getImage();
@@ -306,7 +319,35 @@ public class Scene extends JPanel {
         else if (this.xFond2 == 800) {this.xFond2 = -800;}
     }
 
-    public void paintComponent(Graphics g) { // Dessin de toutes les images visible à l'écran (appel toute les 3ms ~)
+    // Gestion de Partie
+
+    private boolean partieGagnee(){
+        if (this.compteARebours.getCompteurTemps() > 0
+                && this.mario.isVivant() == true
+                && this.score.getNbrePieces() == 10
+                && this.xPos > 4400){
+            if (this.ok == true){
+                Audio.playSound("/audio.partieGagnee.wav");
+                this.ok = false;
+            }
+            return true;
+        }else {return false;}
+    }
+
+    private boolean partiePerdue(){
+        if (this.compteARebours.getCompteurTemps() == 0 || this.mario.isVivant() == false ){
+            return true;
+        }else {return false;}
+    }
+
+    private boolean finDePartie(){
+        if (this.partieGagnee() == true || this.partiePerdue() == true){
+            return true;
+        }else {return false;}
+    }
+
+     // Dessin de toutes les images visible à l'écran (appel toute les 3ms ~)
+    public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
@@ -332,6 +373,8 @@ public class Scene extends JPanel {
             if (this.mario.procheObjet(this.tabPieces.get(i))) {
                 if (this.mario.contactPiece(this.tabPieces.get(i))){
                     this.tabPieces.remove(i);
+                    this.score.setNbrePieces(this.score.getNbrePieces() + 1);
+                    Audio.playSound("/audio/piece.wav");
                 }
             }
         }
@@ -364,20 +407,20 @@ public class Scene extends JPanel {
             }
         }
 
-
-
-
         // Détection contact de Mario avec les ennemis
         // Avec les champignons
         for (int i = 0; i < this.tabChamps.size(); i++) {
             if (this.mario.procheObjet(this.tabChamps.get(i)) & this.tabChamps.get(i).isVivant() == true) {
                 this.mario.contactEnnemi(this.tabChamps.get(i));
+                if (this.tabChamps.get(i).isVivant() == false){Audio.playSound("/audio/ecrasePersonnage.wav");}
+
             }
         }
         // Avec les tortues
         for (int i = 0; i < this.tabTortues.size(); i++) {
             if (this.mario.procheObjet(this.tabTortues.get(i)) && this.tabTortues.get(i).isVivant() == true) {
                 this.mario.contactEnnemi(this.tabTortues.get(i));
+                if (this.tabTortues.get(i).isVivant() == false){Audio.playSound("/audio/ecrasePersonnage.wav");}
             }
         }
 
@@ -414,11 +457,14 @@ public class Scene extends JPanel {
         // Dessin des images des personnages.
 
         // Image de mario
-        if(this.mario.isSaut()) {
-            g.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(),null);
-        }else{
-            g.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
-        }
+        if (this.mario.isVivant() == true){
+            if(this.mario.isSaut()) {
+                g.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(),null);
+            }else{
+                g.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
+            }
+        }else{ g.drawImage(this.mario.meurt(), this.mario.getX(), this.mario.getY(), null);}
+
 
         // images des champignons
         for (int i = 0; i < this.tabChamps.size(); i++){
@@ -432,6 +478,23 @@ public class Scene extends JPanel {
             if (this.tabTortues.get(i).isVivant() == true){
                 g.drawImage(this.tabTortues.get(i).marche("tortue", 50), this.tabTortues.get(i).getX(), this.tabTortues.get(i).getY(), null);
             }else{ g.drawImage(this.tabTortues.get(i).meurt(),this.tabTortues.get(i).getX(), this.tabTortues.get(i).getY() + 30, null);}
+        }
+
+        // Mise a jour du score
+        g.setFont(police);
+        g.setColor(Color.red);
+        g.drawString(this.score.getNbrePieces() + " Pieces sur " + this.score.getNBRE_TOTAL_PIECES(), 550, 25);
+
+        // Mise à jour compte a rebour
+        g.drawString(this.compteARebours.getStr(), 5, 25);
+
+        // Fin de partie
+        if (this.finDePartie() == true) {
+            Font policeFin = new Font("Arial", Font.BOLD, 50);
+            g.setFont(policeFin);
+            if (this.partieGagnee() == true){g.drawString("Vous avez gagné !!", 120, 180);
+            } else {g.drawString("Vous avez perdu ...", 120, 180);
+            }
         }
     }
 }

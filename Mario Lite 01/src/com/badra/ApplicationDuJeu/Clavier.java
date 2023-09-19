@@ -1,5 +1,7 @@
 package com.badra.ApplicationDuJeu;
 
+import com.badra.audio.Audio;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -40,6 +42,7 @@ public class Clavier implements KeyListener {
 
             // Mario Saute
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                Audio.playSound("/audio/saut.wav");
                 Main.scene.mario.setSaut(true);
             }
         }

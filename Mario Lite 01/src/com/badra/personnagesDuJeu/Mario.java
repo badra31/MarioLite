@@ -3,6 +3,7 @@ package com.badra.personnagesDuJeu;
 import com.badra.ApplicationDuJeu.Main;
 import com.badra.ObjetsDuJeu.ObjetJeu;
 import com.badra.ObjetsDuJeu.Piece;
+import com.badra.audio.Audio;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Mario extends Personnage {
 
     private boolean saut;  // Vrai si mario saute
     private int compteurSaut;  //Duré du saut et sa hauteur
+    private int compteurMort;
 
     ///////  CONSTRUCTEUR  /////
     public Mario(int x, int y) {
@@ -26,6 +28,7 @@ public class Mario extends Personnage {
 
         this.saut = false;
         this.compteurSaut = 0;
+        this.compteurMort = 0;
     }
 
     ////////  GETTERS  //////////
@@ -156,6 +159,27 @@ public class Mario extends Personnage {
             return true;
         }else{return false;}
 
+    }
+
+    // Comportement mario meurt
+    public Image meurt() {
+
+        String str;
+        ImageIcon icoMort;
+        Image imgMort;
+
+        str = "/images/boom.png";
+        if (this.compteurMort == 0){Audio.playSound("/audio/boum.wav");}
+        if (this.compteurMort == 100){Audio.playSound("/audio/partiePerdue.wav");}
+        this.compteurMort++;
+        if (this.compteurMort > 100){
+            str = "/images/marioMeurt.png";
+            this.setY(this.getY() - 1);
+        }
+
+        icoMort = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        imgMort = icoMort.getImage();
+        return imgMort;
     }
 
 }
