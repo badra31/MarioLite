@@ -120,14 +120,14 @@ public class Mario extends Personnage {
         }
 
         // Contact avec un objet en desous
-        if (super.contactDessous(objet) == true && this.saut == true) {
+        if (super.contactDessous(objet) == true && this.saut == true) { // Lorsque mario saute sur un objet
             Main.scene.setySol(objet.getY());
-        }else if (super.contactDessous(objet) == false) {
+        }else if (super.contactDessous(objet) == false) { // Lorsque mario tombe sur le sol initial
             Main.scene.setySol(293);
-            if (this.saut == false) {this.setY(243);}
+            if (this.saut == false) {this.setY(243);} // Altitude initial de mario
         }
 
-        // Contact avec un objet en dessus
+        // Contact avec un objet au dessus
         if (super.contactDessus(objet) == true) {
             Main.scene.setHauteurPlafond(objet.getY() + objet.getHauteur());
         }else if (super.contactDessus(objet) == false && this.saut == false) {

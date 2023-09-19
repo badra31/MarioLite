@@ -60,6 +60,21 @@ public class Champ extends Personnage implements Runnable{
         super.setX(super.getX() + this.dxChamp);
     }
 
+    public Image meurt() {
+
+        String str;
+        ImageIcon icoMeurt;
+        Image imgMeurt;
+
+        //this.dxChamp = 0;
+        if (this.isVersDroite() == true) {str = "/images/champEcraseDroite.png";}
+        else {str = "/images/champEcraseGauche.png";}
+
+        icoMeurt = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        imgMeurt = icoMeurt.getImage();
+        return imgMeurt;
+    }
+
     public void contactObjet(ObjetJeu objet) {
         // Contact horizontal
         if (super.contactAvant(objet) == true && this.isVersDroite() == true){

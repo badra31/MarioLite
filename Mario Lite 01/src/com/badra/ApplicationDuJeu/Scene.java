@@ -46,8 +46,26 @@ public class Scene extends JPanel {
 
     // Declaration Personnage
     public Mario mario;
-    public Champ champ;
-    public Tortue tortue;
+
+    public Champ champ1;
+    public Champ champ2;
+    public Champ champ3;
+    public Champ champ4;
+    public Champ champ5;
+    public Champ champ6;
+    public Champ champ7;
+    public Champ champ8;
+
+
+    public Tortue tortue1;
+    public Tortue tortue2;
+    public Tortue tortue3;
+    public Tortue tortue4;
+    public Tortue tortue5;
+    public Tortue tortue6;
+    public Tortue tortue7;
+    public Tortue tortue8;
+    public Tortue tortue9;
 
     // Déclaration ObjetJeu
     public TuyauRouge tuyauRouge1;
@@ -86,8 +104,9 @@ public class Scene extends JPanel {
 
     // Déclaration ArrayList d'ObjetJeu
     private ArrayList<ObjetJeu> tabObjets; // tableau qui enregistre tous les objets du jeu
-    // tabPieces car reaction différente
     private ArrayList<Piece> tabPieces; // tableau qui enregistre toutes les pieces du jeu
+    private ArrayList<Champ> tabChamps; // Tableau de tous les champignions du jeu
+    private ArrayList<Tortue> tabTortues; // Tableau de touts les tortues du jeu
 
     ///////  CONSTRUCTEUR  /////
 
@@ -121,8 +140,25 @@ public class Scene extends JPanel {
 
         // Instancié initialisé les Personnages
         mario = new Mario(300, 245);
-        champ = new Champ(800, 263);
-        tortue = new Tortue(950, 243);
+
+        champ1 = new Champ(800, 263);
+        champ2 = new Champ(1100, 263);
+        champ3 = new Champ(2100, 263);
+        champ4 = new Champ(2400, 263);
+        champ5 = new Champ(3200, 263);
+        champ6 = new Champ(3500, 263);
+        champ7 = new Champ(3700, 263);
+        champ8 = new Champ(4500, 263);
+
+        tortue1 = new Tortue(950, 243);
+        tortue2 = new Tortue(1500, 243);
+        tortue3 = new Tortue(1800, 243);
+        tortue4 = new Tortue(2400, 243);
+        tortue5 = new Tortue(3100, 243);
+        tortue6 = new Tortue(3600, 243);
+        tortue7 = new Tortue(3900, 243);
+        tortue8 = new Tortue(4200, 243);
+        tortue9 = new Tortue(4400, 243);
 
         // Instancié les ObjetJeu
         blocPierre1 = new BlocPierre(400, 180);
@@ -161,6 +197,8 @@ public class Scene extends JPanel {
         // Instancié l'objet "tabObjets"
         tabObjets = new ArrayList<ObjetJeu>();
         tabPieces = new ArrayList<Piece>();
+        tabChamps = new ArrayList<Champ>();
+        tabTortues = new ArrayList<Tortue>();
 
         // Initialisé contenu tabObjets
         this.tabObjets.add(this.tuyauRouge1);
@@ -195,6 +233,27 @@ public class Scene extends JPanel {
         this.tabPieces.add(this.piece8);
         this.tabPieces.add(this.piece9);
         this.tabPieces.add(this.piece10);
+
+        // Initialisé contenue de tabChamps et tabTortues
+
+        this.tabChamps.add(this.champ1);
+        this.tabChamps.add(this.champ2);
+        this.tabChamps.add(this.champ3);
+        this.tabChamps.add(this.champ4);
+        this.tabChamps.add(this.champ5);
+        this.tabChamps.add(this.champ6);
+        this.tabChamps.add(this.champ7);
+        this.tabChamps.add(this.champ8);
+
+        this.tabTortues.add(this.tortue1);
+        this.tabTortues.add(this.tortue2);
+        this.tabTortues.add(this.tortue3);
+        this.tabTortues.add(this.tortue4);
+        this.tabTortues.add(this.tortue5);
+        this.tabTortues.add(this.tortue6);
+        this.tabTortues.add(this.tortue7);
+        this.tabTortues.add(this.tortue8);
+        this.tabTortues.add(this.tortue9);
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -237,8 +296,7 @@ public class Scene extends JPanel {
             this.xPos = this.xPos  + this.dx;
             this.xFond1 = this.xFond1 - this.dx;
             this.xFond2 = this.xFond2 - this.dx;
-            this.champ.deplacement();
-            this.tortue.deplacement();
+
         }
 
         // Permanace du fond d'écran en simulant une boucle avec xFond1 et xFond2
@@ -256,9 +314,18 @@ public class Scene extends JPanel {
         for (int i = 0; i < this.tabObjets.size(); i++){
             // mario
             if (this.mario.procheObjet(this.tabObjets.get(i))){this.mario.contactObjet(this.tabObjets.get(i));}
-            if (this.champ.procheObjet(this.tabObjets.get(i))){this.champ.contactObjet(this.tabObjets.get(i));}
-            if (this.tortue.procheObjet(this.tabObjets.get(i))){this.tortue.contactObjet(this.tabObjets.get(i));}
+
+            // Detection contact mario avec les champignons si condition valide
+            for (int j = 0; j < this.tabChamps.size(); j++) {
+                if (this.tabChamps.get(j).procheObjet(this.tabObjets.get(i))){this.tabChamps.get(j).contactObjet(this.tabObjets.get(i));}
+            }
+
+            // Detection contact mario avec les tortues si condition valide
+            for (int j = 0; j < this.tabTortues.size(); j++) {
+                if (this.tabTortues.get(j).procheObjet(this.tabObjets.get(i))){this.tabTortues.get(j).contactObjet(this.tabObjets.get(i));}
+            }
         }
+
 
         // Detection contact mario avec les pieces
         for (int i = 0; i < this.tabPieces.size(); i++) {
@@ -269,15 +336,59 @@ public class Scene extends JPanel {
             }
         }
 
-        if (this.champ.procheObjet(tortue)) {this.champ.contactObjet(tortue);}
-        if (this.tortue.procheObjet(champ)) {this.tortue.contactObjet(champ);}
-        if (this.mario.procheObjet(champ)) {this.mario.contactEnnemi(champ);}
+        // Détection contact entre ennemi: Champignon avec Champignon ainsi que Champignon avec Tortue
+        for (int i = 0; i < this.tabChamps.size(); i++){
+            // Champignons
+            for (int j = 0; j < this.tabChamps.size(); j++){
+                if (j != i) {
+                    if (this.tabChamps.get(j).procheObjet(this.tabChamps.get(i))) {this.tabChamps.get(j).contactObjet(this.tabChamps.get(i));}
+                }
+            }
+            // Tortues
+            for (int j = 0; j < this.tabTortues.size(); j++) {
+                if (this.tabTortues.get(j).procheObjet(this.tabChamps.get(i))) {this.tabTortues.get(j).contactObjet(this.tabChamps.get(i));}
+            }
+        }
+
+        // Détection inverse contact entre ennemi: Tortue avec Champignon ainsi que Tortue avec Tortue
+        for (int i = 0; i < this.tabTortues.size(); i++){
+            // Champignons
+            for (int j = 0; j < this.tabChamps.size(); j++){
+                if (this.tabChamps.get(j).procheObjet(this.tabTortues.get(i))) {this.tabChamps.get(j).contactObjet(this.tabTortues.get(i));}
+            }
+            // Tortues
+            for (int j = 1; j < this.tabTortues.size(); j++) {
+                if (j != i) {
+                    if (this.tabTortues.get(j).procheObjet(this.tabTortues.get(i))) {this.tabTortues.get(j).contactObjet(this.tabTortues.get(i));}
+                }
+            }
+        }
+
+
+
+
+        // Détection contact de Mario avec les ennemis
+        // Avec les champignons
+        for (int i = 0; i < this.tabChamps.size(); i++) {
+            if (this.mario.procheObjet(this.tabChamps.get(i)) & this.tabChamps.get(i).isVivant() == true) {
+                this.mario.contactEnnemi(this.tabChamps.get(i));
+            }
+        }
+        // Avec les tortues
+        for (int i = 0; i < this.tabTortues.size(); i++) {
+            if (this.mario.procheObjet(this.tabTortues.get(i)) && this.tabTortues.get(i).isVivant() == true) {
+                this.mario.contactEnnemi(this.tabTortues.get(i));
+            }
+        }
+
 
         //  Gestion du placement de touts les objets fixe du jeu
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
             for (int i = 0; i < this.tabObjets.size(); i++) {this.tabObjets.get(i).deplacement();}
             for (int i = 0; i < this.tabPieces.size(); i++) {this.tabPieces.get(i).deplacement();}
+            for (int i = 0; i < this.tabChamps.size(); i++) {this.tabChamps.get(i).deplacement();}
+            for (int i = 0; i < this.tabTortues.size(); i++){this.tabTortues.get(i).deplacement();}
         }
 
         // Dessin de l'image de fond.
@@ -301,14 +412,26 @@ public class Scene extends JPanel {
         g.drawImage(this.imgChateauFin, 5000 - this.xPos, 145, null); // dessin de l'image du chateau de fin
 
         // Dessin des images des personnages.
+
+        // Image de mario
         if(this.mario.isSaut()) {
             g.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(),null);
         }else{
             g.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
         }
 
-        g.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
-        g.drawImage(this.tortue.marche("tortue", 45), this.tortue.getX(), this.tortue.getY(), null);
+        // images des champignons
+        for (int i = 0; i < this.tabChamps.size(); i++){
+            if (this.tabChamps.get(i).isVivant() == true){
+                g.drawImage(this.tabChamps.get(i).marche("champ", 45),this.tabChamps.get(i).getX(), this.tabChamps.get(i).getY(), null);
+            }else{ g.drawImage(this.tabChamps.get(i).meurt(),this.tabChamps.get(i).getX(), this.tabChamps.get(i).getY() + 20, null);}
+        }
 
+        // images des tortues
+        for (int i = 0; i < this.tabTortues.size(); i++){
+            if (this.tabTortues.get(i).isVivant() == true){
+                g.drawImage(this.tabTortues.get(i).marche("tortue", 50), this.tabTortues.get(i).getX(), this.tabTortues.get(i).getY(), null);
+            }else{ g.drawImage(this.tabTortues.get(i).meurt(),this.tabTortues.get(i).getX(), this.tabTortues.get(i).getY() + 30, null);}
+        }
     }
 }

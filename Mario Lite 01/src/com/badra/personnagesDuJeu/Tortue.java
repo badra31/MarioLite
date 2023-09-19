@@ -45,9 +45,11 @@ public class Tortue extends Personnage implements Runnable{
         catch (InterruptedException e){}
 
         while (true) {
-            this.bouge();
-            try {Thread.sleep(PAUSE);
-            }catch (InterruptedException e) {}
+            if (this.vivant == true){
+                this.bouge();
+                try {Thread.sleep(PAUSE);}
+                catch (InterruptedException e) {}
+            }
         }
     }
 
@@ -55,6 +57,19 @@ public class Tortue extends Personnage implements Runnable{
         if (super.isVersDroite() == true){this.dxTortue = 1;}
         else{this.dxTortue = -1;}
         super.setX(super.getX() + this.dxTortue);
+    }
+
+    public Image meurt() {
+
+        String str;
+        ImageIcon icoMeurt;
+        Image imgMeurt;
+
+        str = "/images/tortueFermee.png";
+
+        icoMeurt = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
+        imgMeurt = icoMeurt.getImage();
+        return imgMeurt;
     }
 
     public void contactObjet(ObjetJeu objet) {
